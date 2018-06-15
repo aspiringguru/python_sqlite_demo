@@ -1,5 +1,18 @@
 import sqlite3
 import time, datetime, random
+import matplotlib
+matplotlib.use("Agg")
+#added due to error, possibly due to install configuration
+
+import matplotlib.pyplot as plt
+
+print(matplotlib.get_backend())
+import matplotlib.dates as mdates
+
+from matplotlib import style
+style.use('fivethirtyeight')
+
+
 
 conn = sqlite3.connect("part1.db")
 
@@ -50,21 +63,39 @@ def read_from_db():
     print(data)
     for row in data:
         print (row)
+
+
+def graph_data():
+    c.execute('SELECT unix, value FROM stufftoplot')    
+    data = c.fetchall()
+    print (type(data))
+    dates = []
+    values = []
+    for row in data:
+        print (row[0])
+        print (datetime.datetime.fromtimestamp(row[0]))
+        dates.append(datetime.datetime.fromtimestamp(row[0]))
+        values.append(row[1])
+    plt.plot_date(dates, values, '-')
+    #plt.show()
+    plt.savefig("charts/output_chart.png")
+    print("chart plotted to file")
     
 
-#create_table()
+create_table()
 #data_entry()
-#data_insert(1111, "2016-01-02", "more keywords", 1)
-#data_insert(2222, "2016-01-03", "less keywords", 2)
+data_insert(1111, "2016-01-02", "more keywords", 1)
+data_insert(2222, "2016-01-03", "less keywords", 2)
 
-#dynamic_data_entry()
+dynamic_data_entry()
 
-#for i in range(10):
-#    dynamic_data_entry()
-#    time.sleep(1) 
+for i in range(100):
+    dynamic_data_entry()
+    time.sleep(1) 
 
 #select_all_tasks(c)
 read_from_db()
+graph_data()
 
 c.close()
 conn.close()
