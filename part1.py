@@ -13,10 +13,8 @@ def data_entry():
     c.execute("INSERT into stufftoplot VALUES(123456, '2016-01-01', 'some keywords', 5)")	
     conn.commit()
 
-def data_insert(unix, datestamp, keyword, value):
-    sql = "INSERT into stufftoplot VALUES("+str(unix)+", "+datestamp+", "+keyword+", "+str(value)+")"
-    print ("sql:", sql)
-    c.execute(sql)
+def data_insert(unix, date, keyword, value):
+    c.execute("INSERT into stufftoplot (unix, datestamp, keyword, value) VALUES(?, ?, ?, ?) ", (unix, date, keyword, value))
     conn.commit()
 
 def select_all_tasks(c):
@@ -41,19 +39,33 @@ def dynamic_data_entry():
     value = random.randrange(0,10)
     c.execute("INSERT into stufftoplot (unix, datestamp, keyword, value) VALUES (?, ?, ?, ?)", (unix, date, keyword, value))
     conn.commit()
+
+def read_from_db():
+    #c.execute('SELECT * FROM stufftoplot')
+    #c.execute("SELECT * FROM stufftoplot WHERE value = '5' AND keyword='python' COLLATE NOCASE")
+    #c.execute("SELECT * FROM stufftoplot WHERE value = 3 AND keyword='Python'")
+    c.execute("SELECT * FROM stufftoplot WHERE unix > 1529020514")
+    data = c.fetchall()
+    print (type(data))
+    print(data)
+    for row in data:
+        print (row)
     
 
-create_table()
-data_entry()
+#create_table()
+#data_entry()
 #data_insert(1111, "2016-01-02", "more keywords", 1)
 #data_insert(2222, "2016-01-03", "less keywords", 2)
-dynamic_data_entry()
 
-for i in range(10):
-    dynamic_data_entry()
-    time.sleep(1) 
+#dynamic_data_entry()
 
-select_all_tasks(c)
+#for i in range(10):
+#    dynamic_data_entry()
+#    time.sleep(1) 
+
+#select_all_tasks(c)
+read_from_db()
+
 c.close()
 conn.close()
 
