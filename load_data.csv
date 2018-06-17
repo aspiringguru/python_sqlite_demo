@@ -1,0 +1,6 @@
+import pandas as pd
+
+df = pd.read_csv('20180601-asx-listed-companies.csv', header=1)
+print (df.shape)
+print (list(df))
+print(df.head())

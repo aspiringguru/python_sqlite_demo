@@ -1,0 +1,11 @@
+ssh -i /c/2018_working/fastai/bmt25March2018FastAI_XXX.pem ubuntu@35.155.193.164
+
+#install python anaconda
+wget https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+
+chmod +x Anaconda3-5.2.0-Linux-x86_64.sh
+./Anaconda3-5.2.0-Linux-x86_64.sh
+#manually answer the prompts
+
+
+sqlite3
